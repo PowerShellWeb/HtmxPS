@@ -105,7 +105,7 @@ function Get-HTMX {
             # If the last key is content, child, or children, we will treat the argument as a child.
             if ($lastKey -in 'content', 'child', 'children') {
                 $moreChildren.Add($argument)
-                $attributes.RemoveAt($lastKey)
+                $attributes.Remove($lastKey)
             } else {
                 # Otherwise, we will treat it as a value.
                 $attributes[@($attributes.Keys)[-1]] = $argument
