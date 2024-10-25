@@ -107,6 +107,11 @@ function Start-Htmx {
     [ScriptBlock]
     $Handler,
 
+    # The lifespan of the server.  After this time, the server will stop.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [timespan]
+    $LifeSpan,
+
     # The name of the palette to use.  This will include the [4bitcss](https://4bitcss.com) stylesheet.
     [Alias('Palette','ColorScheme','ColorPalette')]
     [ArgumentCompleter({
@@ -156,6 +161,7 @@ function Start-Htmx {
                 $ExecutionContext.SessionState.PSVariable.Set($keyValuePair.Key, $keyValuePair.Value)
             }
             # Start the listener
+            $ServerStartTime = [DateTime]::Now
             $httpListener.Start()
             # If we have routes, we will cache all of their possible parameters now
             if ($route.Count) {
@@ -179,6 +185,16 @@ function Start-Htmx {
             # While the server is listening
             while ($httpListener.IsListening) {
                 try {
+                    # If the server has a lifespan, we will stop it after the lifespan has passed.
+                    if (
+                        $LifeSpan -is [timespan] -and 
+                        $lifeSpan.TotalMilliseconds -and 
+                        [DateTime]::Now -gt $ServerStartTime.Add($LifeSpan)
+                    ) {
+                        $httpListener.Stop()
+                        break
+                    }
+
                     # Try to get a the next context
                     $contextAsync = $httpListener.GetContextAsync()
                     $context = $contextAsync.Result
