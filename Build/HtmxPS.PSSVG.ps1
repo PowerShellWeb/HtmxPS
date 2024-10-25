@@ -92,6 +92,6 @@ foreach ($variant in '','Animated') {
         SVG.Use -Href '#PowerShellWeb' -Height 60% -Width 60% -X 20% -Y 20%
         svg.use -Href '#psChevron' -Y 75.75% -X 14% @fillParameters -Height 7.5%
         svg.use -Href '#psChevron' -Y 75.75% -X 14% @fillParameters -Height 7.5% -TransformOrigin '50% 50%' -Transform 'scale(-1 1)'
-        SVG.text -X 50% -Y 80% -TextAnchor middle -FontFamily $fontName -Style "font-family:`"$fontName`",sans-serif" -FontSize 4.2em -Fill '#4488FF' -Content 'HtmxPS'  -DominantBaseline middle
+        SVG.text -X 50% -Y 80% -TextAnchor middle -FontFamily $fontName -Style "font-family:`"$fontName`",sans-serif" -FontSize 4.2em -Fill '#4488FF' -Content 'HtmxPS' -Class 'foreground-fill'  -DominantBaseline middle
     ) -OutputPath $outputPath -ViewBox 0, 0, 1080, 1080
 }
