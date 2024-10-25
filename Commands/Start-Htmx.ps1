@@ -186,8 +186,7 @@ function Start-Htmx {
             while ($httpListener.IsListening) {
                 try {
                     # If the server has a lifespan, we will stop it after the lifespan has passed.
-                    if (
-                        $LifeSpan -is [timespan] -and 
+                    if ($LifeSpan -is [timespan] -and 
                         $lifeSpan.TotalMilliseconds -and 
                         [DateTime]::Now -gt $ServerStartTime.Add($LifeSpan)
                     ) {
@@ -361,7 +360,7 @@ function Start-Htmx {
                     } else {
                         # If we are on Windows, we will use a random port between 4kb and 32kb.
                         if (-not $port) { $port = $(Get-Random -Min 4kb -Max 32kb)}
-                        "http://localhost:$port/"
+                        "http://127.0.0.1:$port/"
                     }
                 } else {
                     $ServerUrl
