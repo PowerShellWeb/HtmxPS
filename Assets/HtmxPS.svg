@@ -22,5 +22,5 @@
   <use href="#PowerShellWeb" height="60%" width="60%" x="20%" y="20%" />
   <use href="#psChevron" y="75.75%" x="14%" height="7.5%" fill="#4488FF" class="foreground-fill" />
   <use href="#psChevron" y="75.75%" x="14%" height="7.5%" transform-origin="50% 50%" transform="scale(-1 1)" fill="#4488FF" class="foreground-fill" />
-  <text x="50%" y="80%" text-anchor="middle" font-family="Noto Sans" style="font-family:&quot;Noto Sans&quot;,sans-serif" font-size="4.2em" fill="#4488FF" dominant-baseline="middle">HtmxPS</text>
+  <text x="50%" y="80%" text-anchor="middle" font-family="Noto Sans" style="font-family:&quot;Noto Sans&quot;,sans-serif" font-size="4.2em" fill="#4488FF" class="foreground-fill" dominant-baseline="middle">HtmxPS</text>
 </svg>
