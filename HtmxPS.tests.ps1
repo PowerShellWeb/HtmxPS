@@ -20,9 +20,16 @@ describe HtmxPS {
                 Invoke-RestMethod -Uri $startedLocalJob.ServerUrl
                 $startedLocalJob | Stop-Htmx
                 $startedLocalJob | Remove-Job
-            } else {
-                "This test cannot be run in a GitHub workflow without a service container."
-            }            
+            } elseif ($env:HOSTNAME) {
+                $startedLocalJob = Start-Htmx -Htmx (
+                    htmx button "Click Me" hx-on:click="alert('Thanks, I needed that!')"
+                ) -ServerUrl "http://$env:HOSTNAME:$(Get-Random -Min 4kb -Max 32kb)"
+                Invoke-RestMethod -Uri $startedLocalJob.ServerUrl
+                $startedLocalJob | Stop-Htmx
+                $startedLocalJob | Remove-Job                
+            } else {                
+                "This test cannot be run without a GitHub workflow that has a host name."
+            }             
         }
     }
 }
