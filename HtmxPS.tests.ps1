@@ -9,5 +9,16 @@ describe HtmxPS {
         it "Will treat input as content" {
             "Hello World" | htmx div hx-on:click "alert('Hello, World!')"
         }
-    }    
+    }
+    
+    context 'Start-Htmx and Stop-Htmx' {
+        it "Will start and stop a small htmx server" {
+            $startedLocalJob = Start-Htmx -Htmx (
+                htmx button "Click Me" hx-on:click="alert('Thanks, I needed that!')"
+            )
+            Invoke-RestMethod -Uri $startedLocalJob.ServerUrl
+            $startedLocalJob | Stop-Htmx
+            $startedLocalJob | Remove-Job
+        }
+    }
 }
