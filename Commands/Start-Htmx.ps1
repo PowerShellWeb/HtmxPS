@@ -477,6 +477,9 @@ function Start-Htmx {
             )
         }
         
+        $null = Register-EngineEvent -SourceIdentifier PowerShell.Exiting -Action {
+            Get-Job | ? HttpListener | Stop-Htmx
+        }
         while ($serverJob.JobStateInfo.State -eq 'NotStarted') {
             Start-Sleep -Milliseconds (Get-Random -Maximum 20 -Minimum 1)
         }
