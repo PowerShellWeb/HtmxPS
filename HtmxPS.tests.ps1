@@ -18,16 +18,14 @@ describe HtmxPS {
                     htmx button "Click Me" hx-on:click="alert('Thanks, I needed that!')"
                 )
                 Invoke-RestMethod -Uri $startedLocalJob.ServerUrl
-                $startedLocalJob | Stop-Htmx
-                $startedLocalJob | Remove-Job
+                $startedLocalJob | Stop-Htmx -PassThru | Remove-Job                 
             } else {
                 $startedLocalJob = Start-Htmx -Htmx (
                     htmx button "Click Me" hx-on:click="alert('Thanks, I needed that!')"
                 ) -ServerUrl "http://127.0.0.1:8080/"
                 # Start-Sleep -Seconds 1
                 Invoke-RestMethod -Uri $startedLocalJob.ServerUrl
-                $startedLocalJob | Stop-Htmx
-                $startedLocalJob | Remove-Job
+                $startedLocalJob | Stop-Htmx -PassThru | Remove-Job                
             }             
         }
     }

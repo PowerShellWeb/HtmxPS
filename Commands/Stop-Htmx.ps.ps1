@@ -15,7 +15,7 @@ function Stop-Htmx {
             if ($job.HttpListener) {
                 $job.HttpListener.Stop()
             }
-            $job | Stop-Job
+            $job | Stop-Job -PassThru:$passThru
         } else {
             foreach ($existingJob in Get-Job @PSBoundParameters) {
                 if ($existingJob.HttpListener) {
@@ -26,7 +26,7 @@ function Stop-Htmx {
                     }
                     
                 }
-                $existingJob | Stop-Job
+                $existingJob | Stop-Job -PassThru:$passThru
             }
         }
     }
