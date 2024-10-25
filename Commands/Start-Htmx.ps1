@@ -470,13 +470,16 @@ function Start-Htmx {
         
         # If we haven't determined the server URL, we will do so now.
         if (-not $serverJob.ServerUrl) {
-            $prefixes = $HttpListener.Prefixes -as [string[]]        
+            $prefixes = $HttpListener.Prefixes -as [string[]]
             $ServerUrl = $prefixes[0]
             $serverJob.psobject.properties.add(
                 [psnoteproperty]::new('ServerUrl', $ServerUrl), $true
             )
         }
         
+        while ($serverJob.JobStateInfo.State -eq 'NotStarted') {
+            Start-Sleep -Milliseconds (Get-Random -Maximum 20 -Minimum 1)
+        }
         $serverJob
     }
 }
