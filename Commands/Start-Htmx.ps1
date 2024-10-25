@@ -335,9 +335,12 @@ function Start-Htmx {
         if (-not $myParams['ServerUrl']) {
             $ServerUrl = $myParams['ServerUrl'] =
                 if (-not $ServerUrl) {
-                    # If we are on unix, and a port has not been set, we will use port 80.
-                    if ($PSVersionTable.Platform -eq 'Unix') {
-                        if (-not $port) { $port = 80}
+                    # If we are on unix, and a port has not been set, 
+                    # and an environment variable indicates we are in a container, we will use port 80.
+                    if ($PSVersionTable.Platform -eq 'Unix' -and (
+                        Get-ChildItem env: | Where-Object Name -Match InContainer
+                    )) {
+                        if (-not $port) { $port = 80 }
                         "http://*:$port/"
                     } else {
                         # If we are on Windows, we will use a random port between 4kb and 32kb.
