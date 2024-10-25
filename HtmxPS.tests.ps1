@@ -28,7 +28,7 @@ describe HtmxPS {
                 $startedLocalJob | Stop-Htmx
                 $startedLocalJob | Remove-Job                
             } else {                
-                "This test cannot be run without a GitHub workflow that has a host name."
+                Write-Warning "This test cannot be run without a GitHub workflow that has a host name."
             }             
         }
     }
