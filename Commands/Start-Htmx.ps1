@@ -353,7 +353,8 @@ function Start-Htmx {
                     # If we are on unix, and a port has not been set, 
                     # and an environment variable indicates we are in a container, we will use port 80.
                     if ($PSVersionTable.Platform -eq 'Unix' -and (
-                        Get-ChildItem env: | Where-Object Name -Match InContainer
+                        Get-ChildItem env: |
+                            Where-Object Name -Match 'In\P{p}{0,}Container'
                     )) {
                         if (-not $port) { $port = 80 }
                         "http://*:$port/"
@@ -428,7 +429,12 @@ function Start-Htmx {
 
             # If a palette name was provided, we will include the 4bitcss stylesheet.
             if ($PaletteName) {
-                '<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/2bitdesigns/4bitcss@latest/css/.css" id="4bitcss" />' -replace '\.css', "$PaletteName.css"
+                if ($PaletteName -match '/.+?\.css$') {
+                    "<link type='text/css' rel='stylesheet' href='$PaletteName' id='4bitcss' />"
+
+                } else {
+                    '<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/2bitdesigns/4bitcss@latest/css/.css" id="4bitcss" />' -replace '\.css', "$PaletteName.css"
+                }            
             }
             # If a code font was provided, we will include the code font stylesheet.
             if ($CodeFont) {
