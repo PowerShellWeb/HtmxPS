@@ -7,11 +7,21 @@ function Get-HTMX {
         
         The function has no explicit parameters.
 
-        Instead, broadly speaking, arguments become attributes (unless it appears to be a tag or has whitespace) and inputs become children.
+        Instead, broadly speaking, arguments become attributes (unless it appears to be a tag or has whitespace) and inputs become children.        
     .NOTES
         Ideally, this command is very forgiving in its input and helps you write HTMX tag in PowerShell.
 
         If this proves not to be the case, feel free to open an issue.
+
+        The function determines which parameters are treated as attributes through several checks:
+
+        1. Piped input will always be treated as child elements.
+        2. If the argument is a dictionary, its key-value pairs are treated as attributes.
+        3. If the argument is a string containing an equals sign (e.g., "key=value"), it is split into a key and value, and added as an attribute.
+        4. If an argument is a string and does not match certain patterns (e.g., it does not look like a tag or an attribute), it is used as the tag name.
+        5. If an argument is whitespace or a colon/equals sign, it is skipped.
+        6. If an attribute key is detected without a value, the next argument is treated as its value.
+        7. If the last key is content, child, or children, the argument is treated as a child element.                 
     .EXAMPLE
         Get-Htmx div class=container "Hello, World!"
     .EXAMPLE
