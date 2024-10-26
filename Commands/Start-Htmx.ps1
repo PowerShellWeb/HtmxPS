@@ -354,7 +354,7 @@ function Start-Htmx {
                     # and an environment variable indicates we are in a container, we will use port 80.
                     if ($PSVersionTable.Platform -eq 'Unix' -and (
                         Get-ChildItem env: |
-                            Where-Object Name -Match 'In\P{p}{0,}Container'
+                            Where-Object Name -Match 'In\p{P}{0,}Container'
                     )) {
                         if (-not $port) { $port = 80 }
                         "http://*:$port/"
