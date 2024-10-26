@@ -7,16 +7,15 @@ function Get-HTMX {
         
         The function has no explicit parameters.
 
-        Instead, broadly speaking, arguments become attributes (unless it appears to be a tag) and inputs become children.
+        Instead, broadly speaking, arguments become attributes (unless it appears to be a tag or has whitespace) and inputs become children.
     .NOTES
         Ideally, this command is very forgiving in its input and helps you write HTMX tag in PowerShell.
 
         If this proves not to be the case, feel free to open an issue.
     .EXAMPLE
         Get-Htmx div class=container "Hello, World!"
-        <div class="container">Hello, World!</div>
     .EXAMPLE
-        htmx button "Click Me" hx-get=api/endpoint hx-trigger=click
+        htmx button "Click Me" hx-on:click="alert('Thanks, I needed that!')"
     #>
     [ArgumentCompleter({
         param(
@@ -144,14 +143,14 @@ function Get-HTMX {
         }
     
         # If we do not have children, we can close the tag now.
-        if (-not $allContent) { ' />'}
+        if (-not $moreChildren) { ' />'}
         # Otherwise, we will close the tag after the children.
         else { '>'}
     
-        if ($allContent) {
+        if ($moreChildren) {
             @(
                 # We will walk over each child and create the child string.
-                foreach ($contentItem in $allContent) {
+                foreach ($contentItem in $moreChildren) {
                     # If the content has a `ToHtml` method, we will use it.
                     if ($contentItem.ToHtml.Invoke) {
                         $contentItem.ToHtml()
